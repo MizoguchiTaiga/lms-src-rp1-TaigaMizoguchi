@@ -334,4 +334,23 @@ public class StudentAttendanceService {
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
 
+	/*
+	 * 勤怠情報未入力チェック
+	 * @author 溝口大河 - Task.25
+	 * @param lmsUserId
+	 * @return 真偽値
+	 */
+	public Boolean checkNotEnterCount(Integer lmsUserId) {
+		Date trainingDate = attendanceUtil.getTrainingDate();
+		Short deleteFlg = 0;
+		// 過去日の未入力数
+		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, deleteFlg,
+				trainingDate);
+		int limit = 0;
+		if (notEnterCount > limit) {
+			return true;
+		}
+		return false;
+	}
+
 }

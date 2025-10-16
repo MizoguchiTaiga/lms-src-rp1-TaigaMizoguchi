@@ -16,6 +16,14 @@
 			<span>[[${message}]]</span>
 		</div>
 	</th:block>
+	
+	<!-- 溝口大河 – Task.25 -->
+	<!-- 過去日未入力確認ダイアログ -->
+	<th:block th:if="${not #strings.isEmpty(notEnterCount)}">
+		<script>
+			alert('過去日の勤怠に未入力があります。');
+		</script>
+	</th:block>
 
 	<h2>勤怠管理</h2>
 
