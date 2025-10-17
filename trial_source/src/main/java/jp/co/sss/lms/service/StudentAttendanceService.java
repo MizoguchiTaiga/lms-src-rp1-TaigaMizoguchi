@@ -340,7 +340,7 @@ public class StudentAttendanceService {
 	 * @param lmsUserId
 	 * @return 真偽値
 	 */
-	public Boolean checkNotEnterCount(Integer lmsUserId) {
+	public Boolean isEmptyNotEnterCount(Integer lmsUserId) {
 		Date trainingDate = attendanceUtil.getTrainingDate();
 		Short deleteFlg = 0;
 		// 過去日の未入力数

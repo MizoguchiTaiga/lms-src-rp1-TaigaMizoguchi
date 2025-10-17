@@ -48,7 +48,7 @@ public class AttendanceController {
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		// 溝口大河 - Task.25
-		if(studentAttendanceService.checkNotEnterCount(loginUserDto.getLmsUserId()) == true) {
+		if(studentAttendanceService.isEmptyNotEnterCount(loginUserDto.getLmsUserId()) == true) {
 			String notEnterCount = "true";
 			model.addAttribute("notEnterCount",notEnterCount);
 		}
