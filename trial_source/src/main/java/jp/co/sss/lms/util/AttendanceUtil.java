@@ -147,4 +147,78 @@ public class AttendanceUtil {
 		return false;
 	}
 
+	/**
+	 * 時間のプルダウンマップを生成
+	 * 
+	 * @author 溝口大河 - Task.26
+	 * @return 1時間刻みの時間(数値)マップ
+	 */
+	public LinkedHashMap<Integer, String> setHourMap() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for (int i = 0; i < 24;) {
+			String hour;
+
+			if (i < 10) {
+				hour = "0" + i;
+			} else {
+				hour = i + "";
+			}
+
+			map.put(i, hour);
+
+			i = i + 1;
+		}
+		return map;
+	}
+
+	/**
+	 * 分のプルダウンマップを生成
+	 * 
+	 * @author 溝口大河 - Task.26
+	 * @return 1分刻みの分(数値)マップ
+	 */
+	public LinkedHashMap<Integer, String> setMinuteMap() {
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		for (int i = 0; i < 60;) {
+			String minute;
+
+			if (i < 10) {
+				minute = "0" + i;
+			} else {
+				minute = i + "";
+			}
+
+			map.put(i, minute);
+
+			i = i + 1;
+		}
+		return map;
+	}
+
+	/**
+	 * 時間(時)の切り出し
+	 * 
+	 * @author 溝口大河 - Task.26
+	 * @param time 開始時刻or終了時刻
+	 * @return 出退勤時間(時間)
+	 */
+	public Integer getHour(String time) {
+		Integer hour = Integer.valueOf(time.substring(0, 2));
+		return hour;
+	}
+
+	/**
+	 * 時間(分)の切り出し
+	 * 
+	 * @author 溝口大河 - Task.26
+	 * @param time 開始時刻or終了時刻
+	 * @return 出退勤時間(分)
+	 */
+	public Integer getMinute(String time) {
+		Integer minute = Integer.valueOf(time.substring(3, 5));
+		return minute;
+	}
+
 }

@@ -219,6 +219,9 @@ public class StudentAttendanceService {
 		attendanceForm.setUserName(loginUserDto.getUserName());
 		attendanceForm.setLeaveFlg(loginUserDto.getLeaveFlg());
 		attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
+		//溝口大河 - Task.26
+		attendanceForm.setHourMap(attendanceUtil.setHourMap());
+		attendanceForm.setMinuteMap(attendanceUtil.setMinuteMap());
 
 		// 途中退校している場合のみ設定
 		if (loginUserDto.getLeaveDate() != null) {
@@ -238,6 +241,17 @@ public class StudentAttendanceService {
 			dailyAttendanceForm
 					.setTrainingStartTime(attendanceManagementDto.getTrainingStartTime());
 			dailyAttendanceForm.setTrainingEndTime(attendanceManagementDto.getTrainingEndTime());
+
+			// 溝口大河 - Task.26
+			dailyAttendanceForm
+					.setTrainingStartHour(attendanceUtil.getHour(attendanceManagementDto.getTrainingStartTime()));
+			dailyAttendanceForm
+					.setTrainingStartMinute(attendanceUtil.getMinute(attendanceManagementDto.getTrainingStartTime()));
+			dailyAttendanceForm
+					.setTrainingEndHour(attendanceUtil.getHour(attendanceManagementDto.getTrainingEndTime()));
+			dailyAttendanceForm
+					.setTrainingEndMinute(attendanceUtil.getMinute(attendanceManagementDto.getTrainingEndTime()));
+
 			if (attendanceManagementDto.getBlankTime() != null) {
 				dailyAttendanceForm.setBlankTime(attendanceManagementDto.getBlankTime());
 				dailyAttendanceForm.setBlankTimeValue(String.valueOf(
@@ -265,7 +279,6 @@ public class StudentAttendanceService {
 	 * @throws ParseException
 	 */
 	public String update(AttendanceForm attendanceForm) throws ParseException {
-
 		Integer lmsUserId = loginUserUtil.isStudent() ? loginUserDto.getLmsUserId()
 				: attendanceForm.getLmsUserId();
 
@@ -295,10 +308,22 @@ public class StudentAttendanceService {
 			tStudentAttendance.setAccountId(loginUserDto.getAccountId());
 			// 出勤時刻整形
 			TrainingTime trainingStartTime = null;
+
+			// 溝口大河 - Task.26
+			Integer trainingStartHour = dailyAttendanceForm.getTrainingStartHour();
+			Integer trainingStartMinute = dailyAttendanceForm.getTrainingStartMinute();
+			dailyAttendanceForm.setTrainingStartTime(String.valueOf(trainingStartHour + trainingStartMinute));
+			
 			trainingStartTime = new TrainingTime(dailyAttendanceForm.getTrainingStartTime());
 			tStudentAttendance.setTrainingStartTime(trainingStartTime.getFormattedString());
 			// 退勤時刻整形
 			TrainingTime trainingEndTime = null;
+
+			// 溝口大河 - Task.26
+			Integer trainingEndHour = dailyAttendanceForm.getTrainingEndHour();
+			Integer trainingEndMinute = dailyAttendanceForm.getTrainingEndMinute();
+			dailyAttendanceForm.setTrainingEndTime(String.valueOf(trainingEndHour + trainingEndMinute));
+
 			trainingEndTime = new TrainingTime(dailyAttendanceForm.getTrainingEndTime());
 			tStudentAttendance.setTrainingEndTime(trainingEndTime.getFormattedString());
 			// 中抜け時間
@@ -346,8 +371,7 @@ public class StudentAttendanceService {
 		// 過去日の未入力数
 		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, deleteFlg,
 				trainingDate);
-		int limit = 0;
-		if (notEnterCount > limit) {
+		if (notEnterCount > 0) {
 			return true;
 		}
 		return false;
