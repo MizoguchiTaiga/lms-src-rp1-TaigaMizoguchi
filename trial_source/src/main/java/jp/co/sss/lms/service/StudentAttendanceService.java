@@ -308,21 +308,29 @@ public class StudentAttendanceService {
 			tStudentAttendance.setAccountId(loginUserDto.getAccountId());
 			// 出勤時刻整形
 			TrainingTime trainingStartTime = null;
-
 			// 溝口大河 - Task.26
+			// 出勤時間(時)と出勤時間(分)を結合して"〇〇:〇〇"の形に整形
 			Integer trainingStartHour = dailyAttendanceForm.getTrainingStartHour();
 			Integer trainingStartMinute = dailyAttendanceForm.getTrainingStartMinute();
-			dailyAttendanceForm.setTrainingStartTime(String.valueOf(trainingStartHour + trainingStartMinute));
-			
+			if (trainingStartHour == null && trainingStartMinute == null) {
+				dailyAttendanceForm.setTrainingStartTime(null);
+			} else {
+				dailyAttendanceForm.setTrainingStartTime(trainingStartHour + ":" + trainingStartMinute);
+			}
+
 			trainingStartTime = new TrainingTime(dailyAttendanceForm.getTrainingStartTime());
 			tStudentAttendance.setTrainingStartTime(trainingStartTime.getFormattedString());
 			// 退勤時刻整形
 			TrainingTime trainingEndTime = null;
-
 			// 溝口大河 - Task.26
+			// 退勤時間(時)と退勤時間(分)を結合して"〇〇:〇〇"の形に整形
 			Integer trainingEndHour = dailyAttendanceForm.getTrainingEndHour();
 			Integer trainingEndMinute = dailyAttendanceForm.getTrainingEndMinute();
-			dailyAttendanceForm.setTrainingEndTime(String.valueOf(trainingEndHour + trainingEndMinute));
+			if (trainingEndHour == null && trainingEndMinute == null) {
+				dailyAttendanceForm.setTrainingEndTime(null);
+			} else {
+				dailyAttendanceForm.setTrainingEndTime(trainingEndHour + ":" + trainingEndMinute);
+			}
 
 			trainingEndTime = new TrainingTime(dailyAttendanceForm.getTrainingEndTime());
 			tStudentAttendance.setTrainingEndTime(trainingEndTime.getFormattedString());
@@ -346,7 +354,9 @@ public class StudentAttendanceService {
 			tStudentAttendanceList.add(tStudentAttendance);
 		}
 		// 登録・更新処理
-		for (TStudentAttendance tStudentAttendance : tStudentAttendanceList) {
+		for (
+
+		TStudentAttendance tStudentAttendance : tStudentAttendanceList) {
 			if (tStudentAttendance.getStudentAttendanceId() == null) {
 				tStudentAttendance.setFirstCreateUser(loginUserDto.getLmsUserId());
 				tStudentAttendance.setFirstCreateDate(date);

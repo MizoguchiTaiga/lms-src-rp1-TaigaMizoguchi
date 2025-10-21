@@ -158,15 +158,13 @@ public class AttendanceUtil {
 		map.put(null, "");
 		for (int i = 0; i < 24;) {
 			String hour;
-
 			if (i < 10) {
+				// 1桁の時間数の頭に0をつける
 				hour = "0" + i;
 			} else {
 				hour = i + "";
 			}
-
 			map.put(i, hour);
-
 			i = i + 1;
 		}
 		return map;
@@ -183,15 +181,13 @@ public class AttendanceUtil {
 		map.put(null, "");
 		for (int i = 0; i < 60;) {
 			String minute;
-
 			if (i < 10) {
+				// 1桁の分数の頭に0をつける
 				minute = "0" + i;
 			} else {
 				minute = i + "";
 			}
-
 			map.put(i, minute);
-
 			i = i + 1;
 		}
 		return map;
@@ -205,7 +201,12 @@ public class AttendanceUtil {
 	 * @return 出退勤時間(時間)
 	 */
 	public Integer getHour(String time) {
-		Integer hour = Integer.valueOf(time.substring(0, 2));
+		Integer hour;
+		if (time.length() == 0) {
+			hour = null;
+		} else {
+			hour = Integer.valueOf(time.substring(0, 2));
+		}
 		return hour;
 	}
 
@@ -217,7 +218,12 @@ public class AttendanceUtil {
 	 * @return 出退勤時間(分)
 	 */
 	public Integer getMinute(String time) {
-		Integer minute = Integer.valueOf(time.substring(3, 5));
+		Integer minute;
+		if (time.length() == 0) {
+			minute = null;
+		} else {
+			minute = Integer.valueOf(time.substring(3, 5));
+		}
 		return minute;
 	}
 
