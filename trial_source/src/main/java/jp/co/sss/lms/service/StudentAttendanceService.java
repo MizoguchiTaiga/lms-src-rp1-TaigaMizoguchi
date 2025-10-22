@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -376,8 +377,10 @@ public class StudentAttendanceService {
 	 * @return 真偽値
 	 */
 	public Boolean isEmptyNotEnterCount(Integer lmsUserId) {
-		Date trainingDate = attendanceUtil.getTrainingDate();
-		Short deleteFlg = 0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String currentDate = sdf.format(new Date());
+		Date trainingDate = sdf.parse(currentDate);
+		Short deleteFlg = Constants.DB_FLG_FALSE;
 		// 過去日の未入力数
 		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, deleteFlg,
 				trainingDate);
