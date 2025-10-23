@@ -87,7 +87,7 @@
 	</update>
 	
 	<!-- 溝口大河 – Task.25 -->
-	<select id="notEnterCount" parameterType="jp.co.sss.lms.entity.TStudentAttendance">
+	<select id="notEnterCount" resultType="Integer">
 		SELECT COUNT(*)
 		FROM t_student_attendance
 		WHERE lms_user_id = #{lmsUserId}

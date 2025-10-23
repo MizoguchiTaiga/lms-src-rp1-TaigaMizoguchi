@@ -376,18 +376,13 @@ public class StudentAttendanceService {
 	 * @param lmsUserId
 	 * @return 真偽値
 	 */
-	public Boolean isEmptyNotEnterCount(Integer lmsUserId) {
+	public Boolean isEmptyNotEnterCount(Integer lmsUserId) throws ParseException {
+		//フォーマットを指定して現在日付を取得する
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-		String currentDate = sdf.format(new Date());
-		Date trainingDate = sdf.parse(currentDate);
-		Short deleteFlg = Constants.DB_FLG_FALSE;
+		Date trainingDate = sdf.parse(sdf.format(new Date()));
 		// 過去日の未入力数
-		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, deleteFlg,
-				trainingDate);
-		if (notEnterCount > 0) {
-			return true;
-		}
-		return false;
+		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId,
+				Constants.DB_FLG_FALSE, trainingDate);
+		return notEnterCount > 0;
 	}
-
 }
