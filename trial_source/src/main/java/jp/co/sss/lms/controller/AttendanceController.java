@@ -133,9 +133,15 @@ public class AttendanceController {
 	 * @throws ParseException
 	 */
 	@RequestMapping(path = "/update", params = "complete", method = RequestMethod.POST)
-	public String complete(AttendanceForm attendanceForm, Model model, BindingResult result)
+	public String complete(AttendanceForm attendanceForm, BindingResult result, Model model)
 			throws ParseException {
-
+		// 溝口大河 - Task.27
+		//入力チェック(更新用)
+		studentAttendanceService.studentAttendanceInputCheck(attendanceForm, result);
+		if (result.hasErrors()) {
+			model.addAttribute("result",result);
+			return "attendance/update";
+		}
 		// 更新
 		String message = studentAttendanceService.update(attendanceForm);
 		model.addAttribute("message", message);

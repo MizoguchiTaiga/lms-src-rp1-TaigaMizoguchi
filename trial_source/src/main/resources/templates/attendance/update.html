@@ -17,11 +17,21 @@
 			<h2><small>途中退校日：${dispLeaveDate}</small></h2>
 		</th:block>
 	</th:block>
+	
+	<!-- 溝口大河 – Task.27 ここから -->
+	<!-- エラーメッセージ -->
+	<th:block th:if="${not #strings.isEmpty(result)}">
+		<ul style="padding-left: 0; list-style: none;">
+			<li><span th:text="'*' + '&nbsp' + ${result}" class="help-inline error"></span></li>
+		</ul>
+	</th:block>
+	<!-- 溝口大河 – Task.27 ここまで -->
 
 	<div class="row">
 		<div class="bs-component col-sm-12">
 
-			<form th:action="@{/attendance/update}" method="post" >
+			<!-- 溝口大河 – Task.27 -->
+			<form th:action="@{/attendance/update}" method="post" onsubmit="return check()">
 				<table class="table table-hover dataTable no-footer">
 					<!-- 溝口大河 - Task.29 -->
 					<thead style="display: block;">
@@ -105,7 +115,17 @@
 					</th:block>
 					<input type="submit" value="更新" name="complete" class="btn btn-info" />
 				</div>
-
+				<!-- 溝口大河 – Task.27 ここから -->
+				<script>
+					function check(){
+ 					 	if(window.confirm('更新します。よろしいですか？')){
+							  return true;
+						  } else {
+							  return false;
+						  }
+						}
+				</script>
+				<!-- 溝口大河 – Task.27 ここまで -->
 			</form>
 		</div>
 	</div>

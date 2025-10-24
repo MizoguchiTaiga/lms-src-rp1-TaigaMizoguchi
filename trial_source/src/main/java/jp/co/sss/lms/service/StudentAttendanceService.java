@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -385,5 +387,23 @@ public class StudentAttendanceService {
 		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId,
 				Constants.DB_FLG_FALSE, trainingDate);
 		return notEnterCount > 0;
+	}
+
+	/**
+	 * 勤怠情報入力チェック
+	 * 
+	 * @author 溝口大河 - Task.27
+	 * @param attendanceForm
+	 */
+	public void studentAttendanceInputCheck(AttendanceForm attendanceForm, BindingResult result) {
+		// 勤怠管理リストの件数分、入力チェックを行う
+		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+			// 備考の文字数が100文字より多い場合
+			String note = dailyAttendanceForm.getNote();
+			if (note.length() > 100) {
+				result.addError(new FieldError(result.getObjectName(), "note", messageUtil
+						.getMessage("maxlength", new String[] {"備考", "100"})));
+			}
+		}
 	}
 }
