@@ -375,6 +375,7 @@ public class StudentAttendanceService {
 	 * @author 溝口大河 - Task.25
 	 * @param lmsUserId
 	 * @return 真偽値
+	 * @throws ParseException
 	 */
 	public Boolean isEmptyNotEnterCount(Integer lmsUserId) throws ParseException {
 		//フォーマットを指定して現在日付を取得する
