@@ -20,9 +20,9 @@
 	
 	<!-- 溝口大河 – Task.27 ここから -->
 	<!-- エラーメッセージ -->
-	<th:block th:if="${not #strings.isEmpty(result)}">
-		<ul style="padding-left: 0; list-style: none;">
-			<li><span th:text="'*' + '&nbsp' + ${result}" class="help-inline error"></span></li>
+	<th:block th:if="${not #strings.isEmpty(errorMessageList)}">
+		<ul style="padding-left: 0; list-style: none;" th:each="errorMessage : ${errorMessageList}">
+			<li><span th:text="'*' + '&nbsp' + ${errorMessage}" class="help-inline error"></span></li>
 		</ul>
 	</th:block>
 	<!-- 溝口大河 – Task.27 ここまで -->
