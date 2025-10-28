@@ -401,7 +401,7 @@ public class StudentAttendanceService {
 		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
 			// 備考の文字数が100文字より多い場合
 			if (dailyAttendanceForm.getNote().length() > 100) {
-				result.addError(new FieldError(result.getObjectName(), "maxlength", messageUtil
+				result.addError(new FieldError(result.getObjectName(), "note", messageUtil
 						.getMessage("maxlength", new String[] { "備考", "100" })));
 			}
 
@@ -410,7 +410,7 @@ public class StudentAttendanceService {
 					&& dailyAttendanceForm.getTrainingStartMinute() != null) ||
 					(dailyAttendanceForm.getTrainingStartHour() != null
 							&& dailyAttendanceForm.getTrainingStartMinute() == null)) {
-				result.addError(new FieldError(result.getObjectName(), "start.input.invalid", messageUtil
+				result.addError(new FieldError(result.getObjectName(), "trainingStartTime", messageUtil
 						.getMessage("input.invalid", new String[] { "出勤時間" })));
 			}
 
@@ -419,7 +419,7 @@ public class StudentAttendanceService {
 					||
 					(dailyAttendanceForm.getTrainingEndHour() != null
 							&& dailyAttendanceForm.getTrainingEndMinute() == null)) {
-				result.addError(new FieldError(result.getObjectName(), "end.input.invalid", messageUtil
+				result.addError(new FieldError(result.getObjectName(), "trainingEndTime", messageUtil
 						.getMessage("input.invalid", new String[] { "退勤時間" })));
 			}
 
@@ -428,7 +428,7 @@ public class StudentAttendanceService {
 					&& dailyAttendanceForm.getTrainingStartMinute() == null &&
 					dailyAttendanceForm.getTrainingEndHour() != null
 					&& dailyAttendanceForm.getTrainingEndMinute() != null) {
-				result.addError(new FieldError(result.getObjectName(), "attendance.punchInEmpty", messageUtil
+				result.addError(new FieldError(result.getObjectName(), "trainingStartTime", messageUtil
 						.getMessage(Constants.VALID_KEY_ATTENDANCE_PUNCHINEMPTY)));
 			}
 
@@ -444,7 +444,7 @@ public class StudentAttendanceService {
 								&& (dailyAttendanceForm.getTrainingStartMinute()
 										.compareTo(dailyAttendanceForm.getTrainingEndMinute()) == 1))) {
 
-					result.addError(new FieldError(result.getObjectName(), "attendance.trainingTimeRange", messageUtil
+					result.addError(new FieldError(result.getObjectName(), "trainingEndTime", messageUtil
 							.getMessage("attendance.trainingTimeRange",
 									new String[] { count + "番目の出退勤" })));
 				}
@@ -462,7 +462,7 @@ public class StudentAttendanceService {
 						- (dailyAttendanceForm.getTrainingStartHour() * 60
 								+ dailyAttendanceForm.getTrainingStartMinute());
 				if (dailyAttendanceForm.getBlankTime() > trainingTime) {
-					result.addError(new FieldError(result.getObjectName(), "attendance.blankTimeError", messageUtil
+					result.addError(new FieldError(result.getObjectName(), "blankTime", messageUtil
 							.getMessage(Constants.VALID_KEY_ATTENDANCE_BLANKTIMEERROR)));
 				}
 			}
